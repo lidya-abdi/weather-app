@@ -1,0 +1,369 @@
+:root{
+  --bg-top:    #eef3ff;       /* خلفية الصفحة (فوق) */
+  --bg-bottom: #7a7b7d;       /* خلفية الصفحة (تحت) */
+  --card:      #bbbcbf;       /* كروت ومربعات */
+  --text:      #0f172a;       /* نص أساسي */
+  --muted:     #2f3135;       /* نص ثانوي */
+  --border:    #e5e7eb;       /* حدود لطيفة */
+  --accent:    #5680d9;       /* أزرق أنيق للأزرار/الأيقونات */
+  --accent-weak:#a5afbc;      /* خلفية خفيفة للشرائح */
+  --shadow:    0 12px 30px rgba(2,6,23,.08);
+  --radius:    20px;
+}
+
+
+body{
+  margin: 0;
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text);
+  flex-direction: column;
+}
+*{
+  margin: 0;
+  padding: 0;
+}
+main{
+  width: clamp(320px, 92vw, 560px);
+  min-height: 300px;
+  height: auto;
+  overflow: visible;
+  position: relative;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  box-sizing: border-box;
+  margin: clamp(24px, 6vh, 48px) auto;
+}
+
+main form{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px;
+  background: #fff;
+}
+
+main form input{
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 10px 12px;
+  font-size: 16px;
+}
+
+main form button{
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: transform .12s ease, filter .2s ease;
+}
+
+main form button:hover{ filter: brightness(.96); }
+main form button:active{ transform: scale(.98); }
+main form i{ opacity: 1; }
+
+main .result{
+  padding-top: 20px;
+  text-align: center;
+}
+main .result .name{
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+main .temperature img{
+  width: 150px;
+  filter: drop-shadow(0 10px 50px rgba(0,0,0,.35));
+}
+main .temperature figcaption{
+  font-size: 3rem;
+}
+main .description{
+  color: var(--muted);
+  padding: 10px 0 24px;
+}
+main ul{
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+main li{
+  background: var(--accent-weak);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 10px;
+  font-weight: 700;
+  font-size: .9rem;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  grid-template-areas:
+    "icon label"
+    "value value";
+  align-items: center;
+}
+main li i{
+  font-size: 1.6rem;
+  display: block;
+  margin: 14px 0 10px;
+  color: var(--accent);
+  grid-area: icon;
+}
+
+
+main.error{
+  animation: errorEffect 0.3s linear 1;
+}
+@keyframes errorEffect {
+  0%{
+    transform: translate(10px, 5px);
+  }
+  25%{
+    transform: translate(-5px, 0);
+  }
+  50%{
+    transform: translate(8px, 2px);
+  }
+  75%{
+    transform: translate(-2px, 5px);
+  }
+  100%{
+    transform: translate(0,0);
+  }
+}
+main li > span:first-of-type{ 
+  grid-area: label;
+}
+
+main li > span[id]{     
+  grid-area: value;
+  justify-self: center;    
+  margin-top: 4px;
+}
+
+main li > i{ 
+  font-size: 20px;
+  color: var(--accent); 
+}
+main li > span:first-of-type{
+  font-size: 12px;
+  font-weight: 600; 
+  color: var(--muted); 
+  letter-spacing: .2px;
+}
+main li > span[id]{
+  font-size: 22px; 
+  font-weight: 800; 
+  line-height: 1; 
+  color: var(--text);
+  font-variant-numeric: tabular-nums; 
+}
+
+
+main ul li:nth-child(1) > span[id]::after,
+main ul li:nth-child(2) > span[id]::after{
+  content: " %";
+  font-size: 12px;
+  font-weight: 600; 
+  color: var(--muted); 
+  margin-left: 2px;
+}
+main ul li:nth-child(3) > span[id]::after{
+  content: " hPa";
+  font-size: 12px;
+  font-weight: 600; 
+  color: var(--muted); 
+  margin-left: 4px;
+}
+
+
+/* Floating "Use my location" button (top-left) */
+.geo-fab{
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(16px, env(safe-area-inset-left));
+  z-index: 1000;
+
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center;
+  width: 44px; 
+  height: 44px; 
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: #ffffffcc;
+  color: var(--accent);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.geo-fab:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px #00000030;
+}
+.geo-fab:active{
+  transform: translateY(0);
+}
+.geo-fab:focus-visible{
+  outline: 3px solid color-mix(in srgb, var(--accent) 50%, transparent); 
+  outline-offset: 2px; 
+}
+.geo-fab i{
+  font-size: 18px;
+}
+
+@media (max-width: 480px){
+  .geo-fab{ width: 40px; height: 40px; }
+  main form button{ width: 44px; height: 44px; } 
+  .day-card img{ width: 36px; height: 36px; }
+  .day-name{ font-size: 11px; }
+  .temps{ font-size: 12px; }
+  main li{ grid-template-columns: 30px 1fr; }
+  main li > i{ font-size: 18px; }
+  main li > span[id]{ font-size: 20px; }
+}
+
+
+
+/* Forecast block */
+.forecast{
+  margin-top: 18px;
+  display: block;
+}
+.forecast__title{
+  text-align: center;
+  margin-bottom: 8px;
+  font: 700 14px/1.2 sans-serif;
+  opacity: .8;
+}
+.forecast__list{
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+.day-card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 8px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.day-name{
+  font-weight: 700;
+  font-size: 12px;
+  margin-bottom: 4px;
+  opacity: .85;
+}
+.day-card img{
+  width: 44px;
+  height: 44px;
+  display: block;
+  margin: 0 auto 6px;
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,.25));
+  background: transparent;
+}
+.temps{
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.lo{ opacity: .6; }
+
+
+/*  footer */
+footer{
+  margin-top: auto;                         
+  text-align: center;
+  padding: 12px 16px;
+  color: var(--muted);
+  font-size: 14px;
+  border-top: 1px solid rgba(0,0,0,.06);    
+  background: transparent;                  
+}
+
+
+/*  Daylight  */
+.daylight{
+  margin-top: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 14px 12px 10px;
+}
+
+.daylight__title{
+  text-align: center;
+  margin-bottom: 6px;
+  font: 700 14px/1.2 system-ui, sans-serif;
+  color: var(--muted);
+}
+
+/* القوس */
+#sunArc{
+  display: block;
+  max-width: 100%;
+  margin-top: 6px;
+}
+.daylight path{
+  vector-effect: non-scaling-stroke;
+  stroke: color-mix(in srgb, var(--accent) 28%, #ffffff);
+  stroke-width: 8;
+  stroke-linecap: round;
+  opacity: .28;
+}
+
+/* نقطة الشمس */
+#sunDot{
+  r: 7;
+  fill: var(--accent);
+  stroke: #fff;
+  stroke-width: 2.4px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.18));
+}
+
+/* أوقات الشروق/الغروب تحت القوس */
+.sun-times{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 2px;
+  padding: 0 2px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.sun-times strong{ color: var(--text); }
+
+@media (max-width: 380px){
+  .daylight{ padding: 12px 10px 8px; }
+  .sun-times{ font-size: 12px; }
+}

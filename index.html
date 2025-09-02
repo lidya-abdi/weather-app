@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+  </head>
+  <body>
+    <button type="button" id="geo-btn" class="geo-fab" title="Use my location" aria-label="Use my location">
+      <i class="fa-solid fa-location-crosshairs"></i>
+    </button>
+
+    <main>
+      <form action="">
+        <input type="text" autocomplete="off" id="valueSearch" placeholder="Search city…" inputmode="search" enterkeyhint="search">
+        <button>
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <section class="result">
+        <figure class="name" id="city">
+          <figcaption>London</figcaption>
+          <img src="https://flagsapi.com/GB/shiny/32.png" alt="">
+        </figure>
+        <figure class="temperature" id="temperature">
+          <img src="https://openweathermap.org/img/wn/10d@4x.png" alt="">
+          <figcaption>
+            <span>31</span>°
+          </figcaption>
+        </figure>
+        <p class="description">
+          Overcast clouds
+        </p>
+        <ul>
+          <li>
+            <span>Clouds</span>
+            <i class="fa-solid fa-cloud"></i>
+            <span id="clouds">98</span>
+          </li>
+          <li>
+            <span>Humidity</span>
+            <i class="fa-solid fa-droplet"></i>
+            <span id="humidity">55</span>
+          </li>
+          <li>
+            <span>Pressure</span>
+            <i class="fa-solid fa-gauge"></i>
+            <span id="pressure">1001</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Daylight arc -->
+      <section class="daylight" aria-label="Daylight">
+        <h2 class="daylight__title">Daylight</h2>
+
+        <svg id="sunArc" viewBox="0 0 260 140" width="100%" height="auto" aria-hidden="true">
+          <!-- القوس الخلفي -->
+          <path d="M 20 120 A 110 110 0 0 1 240 120"
+                stroke="var(--accent)" stroke-width="6" fill="none" opacity=".25"/>
+          <!-- نقطة الشمس -->
+          <circle id="sunDot" r="7" cx="20" cy="120" fill="var(--accent)"
+                  style="filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));"/>
+        </svg>
+
+        <div class="sun-times">
+          <span>Sunrise: <strong id="sunrise">--:--</strong></span>
+          <span>Sunset: <strong id="sunset">--:--</strong></span>
+        </div>
+      </section>
+
+
+      <section class="forecast" aria-label="Next days">
+        <h2 class="forecast__title">Next 5 days</h2>
+        <div id="forecastList" class="forecast__list"></div>
+      </section>
+
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Weather App by Lidya</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
